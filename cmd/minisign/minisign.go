@@ -387,23 +387,8 @@ func recreateKeyPair(secKeyFile, pubKeyFile string, force bool) {
 	}
 }
 
-func readPassword(file *os.File, message string) string {
-	if !term.IsTerminal(int(file.Fd())) { // If file is not a terminal read the password directly from it
-		p, err := bufio.NewReader(file).ReadString('\n')
-		if err != nil {
-			log.Fatalf("Error: failed to read password: %v", err)
-		}
-		return strings.TrimSuffix(p, "\n") // ReadString contains the trailing '\n'
-	}
-
-	fmt.Fprint(file, message)
-	p, err := term.ReadPassword(int(file.Fd()))
-	fmt.Fprintln(file)
-
-	if err != nil {
-		log.Fatalf("Error: failed to read password: %v", err)
-	}
-	return string(p)
+func readPassword(_ *os.File, _ string) string {
+	return ""
 }
 
 func expandFlags(args []string) []string {
